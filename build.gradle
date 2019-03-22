@@ -26,5 +26,5 @@ javafx {
 // create run task to run the game
 task(run, dependsOn: 'classes', type: JavaExec){
     classpath = sourceSets.main.runtimeClasspath
-    main = 'main.TypingGame'
+    main = 'game.TypingGame'
 }
