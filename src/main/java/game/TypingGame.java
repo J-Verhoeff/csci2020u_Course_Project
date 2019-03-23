@@ -2,6 +2,7 @@ package game;
 
 import java.util.*;
 import java.io.*;
+import java.lang.InterruptedException;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -13,6 +14,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.geometry.Insets;
+import javafx.application.Platform;
+import javafx.scene.text.Text;
+import javafx.scene.text.Font;
 
 
 // main class for typing game
@@ -20,6 +24,8 @@ import javafx.geometry.Insets;
  * TypingGame
  */
 public class TypingGame extends Application {
+
+    Random rand = new Random();
 
     public static void main(String[] args) {
         // main method to run program
@@ -59,12 +65,62 @@ public class TypingGame extends Application {
         primaryStage.setTitle("Typing Tutor"); // set title of the stage
         primaryStage.show(); // display the stage
 
-        // main game functionality
-
+        // main game functionality        
         // create list of words to use in game
         GenerateStrings strings = new GenerateStrings();
         ArrayList<String> words = strings.getWordList();
+        // create the word to type
+        Text word1 = new Text("");
+        wordPane.getChildren().add(word1);
+        resetWord(word1,words);
+        // thread to run game
+        new Thread(() -> {
+            try {
+                while(true){
+                    int[] status={0};
+                    Platform.runLater(() -> {
+                        word1.setY(word1.getY() + 1); // move the word down
+                        // check to see if at bottom of pane
+                        if(400.0 == word1.getY()){
+                            int l = Integer.parseInt(lives.getText().trim());
+                            if(0 >= l){
+                                status[0] = 1;
+                            } else{
+                                l -= 1;
+                                lives.setText(l+"");
+                                resetWord(word1,words);
+                            }
+                        }
+                   });
+                   Thread.sleep(10);
+                   if(1 == status[0]) break;
+                }
+                Thread.currentThread().interrupt();
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }).start();
 
-        
+        // add Typing functionality
+        typing.setOnAction(e -> {
+            try {
+                String typed = typing.getText().trim(); 
+                if(typed.equals(word1.getText().trim())){
+                    int sc = Integer.parseInt(score.getText().trim());
+                    sc += 1;
+                    score.setText(sc+"");
+                    resetWord(word1,words);
+                }
+                typing.clear();                
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+    }
+
+    private void resetWord(Text word, ArrayList<String> words){
+        word.setText(words.get(rand.nextInt(words.size()-1)));
+        word.setY(0);
+        word.setX(rand.nextInt(350));
     }
 }
