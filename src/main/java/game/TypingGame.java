@@ -80,12 +80,12 @@ public class TypingGame extends Application {
             runGame(typing, wordPane, lives, score);
         });
 
+
         try {
             // getting localhost ip
             InetAddress ip = InetAddress.getByName("localhost");
             // establish the connection with server port
             Socket getServer = new Socket(ip, 8000);
-
             //Create an input stream to receive data from the server
             fromServer = new DataInputStream(getServer.getInputStream());
             // Create an output stream to send data to the server
@@ -94,17 +94,16 @@ public class TypingGame extends Application {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-
+      
         Scene scene = new Scene(pane, 400,400);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Typing Game");
         primaryStage.show();
-
     }
 
     private void runGame(TextField typing, Pane wordPane, Label lives,
-                         Label score){
-        // main game functionality
+             Label score){
+        // main game functionality        
         // create list of words to use in game
         GenerateStrings strings = new GenerateStrings();
         ArrayList<String> words = strings.getWordList();
@@ -123,22 +122,22 @@ public class TypingGame extends Application {
                     int[] status={0};
                     Platform.runLater(() -> {
                         // move the words down
-                        incrementWord(word1);
+                        incrementWord(word1); 
                         incrementWord(word2);
                         incrementWord(word3);
                         // check to see if at bottom of pane
                         checkPosition(word1,lives,words,status);
                         if(1!=status[0]) checkPosition(word2,lives,words,status);
                         if(1!=status[0]) checkPosition(word3,lives,words,status);
-                    });
-                    Thread.sleep(20);
-                    // break game loop if run out of lives
-                    if(1 == status[0]){
-                        word1.setText("");
-                        word2.setText("");
-                        word3.setText("");
-                        break;
-                    }
+                   });
+                   Thread.sleep(20);
+                   // break game loop if run out of lives
+                   if(1 == status[0]){
+                       word1.setText("");
+                       word2.setText("");
+                       word3.setText("");
+                       break;
+                   }
                 }
                 Thread.currentThread().interrupt(); // exit thread
             } catch (InterruptedException ex) {
@@ -151,7 +150,7 @@ public class TypingGame extends Application {
             try {
                 // check if typed word equals one of the words in the game
                 //  if yes increment score and reset the word
-                String typed = typing.getText().trim();
+                String typed = typing.getText().trim(); 
                 if(typed.equals(word1.getText().trim())){
                     incrementScore(word1,score,words);
                 }
@@ -161,13 +160,12 @@ public class TypingGame extends Application {
                 else if(typed.equals(word3.getText().trim())){
                     incrementScore(word3,score,words);
                 }
-                typing.clear(); // clear the typing field
+                typing.clear(); // clear the typing field           
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         });
     }
-
 
     private void resetWord(Text word, ArrayList<String> words){
         // method to reset the word
@@ -180,8 +178,8 @@ public class TypingGame extends Application {
         word.setY(word.getY()+1); // move the word down in the pane
     }
 
-    private void checkPosition(Text word, Label lives,ArrayList<String> words,
-                               int[] status){
+    private void checkPosition(Text word, Label lives,ArrayList<String> words, 
+            int[] status){
         // method to check if word has reached bottom of the pane
         if(400.0 == word.getY()){
             int l = Integer.parseInt(lives.getText().trim());
@@ -189,6 +187,7 @@ public class TypingGame extends Application {
                 status[0] = 1; // if no lives remaining increment status flag
             } else{ // if lives remaining decrement the lives
                 l -= 1;
+
                 lives.setText(l+"");
                 resetWord(word,words); // reset to new word
             }
