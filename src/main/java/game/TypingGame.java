@@ -169,6 +169,7 @@ public class TypingGame extends Application {
                         word1.setText("");
                         word2.setText("");
                         word3.setText("");
+                        GameOver();
                         break;
                     }
                 }
@@ -271,6 +272,38 @@ public class TypingGame extends Application {
             ex.printStackTrace();
             return null;
         }
+    }
+       
+    private String text = "";
+    private void GameOver(){
+        StackPane pane = new StackPane();
+        Label lblText = new Label("Typing Game");
+        pane.getChildren().add(lblText);
+    
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    while (true) {
+                        if (lblText.getText().trim().length() == 0)
+                            text = "GAME OVER"; //text will flash
+                        else
+                            text = "";
+  
+            Platform.runLater(new Runnable() {
+              @Override 
+              public void run() {
+                lblText.setText(text);
+              }
+            });           
+            Thread.sleep(200);
+          }
+        }
+        catch (InterruptedException ex) {
+        }
+      }
+    }).start();
+  
     }
 
 }
