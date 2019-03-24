@@ -10,7 +10,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+public class Server extends Application {
 
     //Variables
     private TextArea textArea = new TextArea();
