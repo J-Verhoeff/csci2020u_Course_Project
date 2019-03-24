@@ -27,7 +27,9 @@ import javafx.scene.text.Text;
 public class TypingGame extends Application {
 
     Random rand = new Random();
-
+    public int finalScore = 0;
+    BorderPane pane = new BorderPane(); // main pane for game'
+    GridPane scorePane = new GridPane();
     // IO streams
     DataOutputStream toServer = null;
     DataInputStream fromServer = null;
@@ -38,12 +40,12 @@ public class TypingGame extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) {
-        BorderPane pane = new BorderPane(); // main pane for game
+    public void start(Stage primaryStage) throws IOException{
+//        BorderPane pane = new BorderPane(); // main pane for game
         Button startButton = new Button("Start!");
 
         // pane to display score
-        GridPane scorePane = new GridPane();
+//        GridPane scorePane = new GridPane();
         scorePane.setPadding(new Insets(11.5,12.5,13.5,14.5));
         scorePane.setAlignment(Pos.CENTER);
         scorePane.setVgap(5.5);
@@ -77,6 +79,7 @@ public class TypingGame extends Application {
             pane.setCenter(wordPane);
 
             runGame(typing, wordPane, lives, score);
+
         });
 
         try {
@@ -106,6 +109,7 @@ public class TypingGame extends Application {
         // create list of words to use in game
         GenerateStrings strings = new GenerateStrings();
         ArrayList<String> words = strings.getWordList();
+
         // create the word to type
         Text word1 = new Text("");
         Text word2 = new Text("");
@@ -114,9 +118,11 @@ public class TypingGame extends Application {
         resetWord(word1,words);
         resetWord(word2,words);
         resetWord(word3,words);
+
         // thread to run game
         new Thread(() -> {
             try {
+
                 while(true){
                     int[] status={0};
                     Platform.runLater(() -> {
@@ -138,10 +144,26 @@ public class TypingGame extends Application {
                         break;
                     }
                 }
+
+                try {
+                    //send data to server
+                    toServer.writeInt(finalScore);
+                    toServer.flush();
+
+                    //get data from server
+                    String message = fromServer.readUTF();
+
+                    System.out.println(message);
+
+                }
+                catch (IOException ex) {
+                    System.err.println(ex);
+                }
                 Thread.currentThread().interrupt(); // exit thread
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
+
         }).start();
 
         // add Typing functionality
@@ -160,6 +182,7 @@ public class TypingGame extends Application {
                     incrementScore(word3,score,words);
                 }
                 typing.clear(); // clear the typing field
+
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -198,6 +221,7 @@ public class TypingGame extends Application {
         // method to increment the score
         int sc = Integer.parseInt(score.getText().trim());
         sc += 1;
+        finalScore += 1;
         score.setText(sc+"");
         resetWord(word,words);
     }
