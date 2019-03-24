@@ -1,4 +1,4 @@
-//package game;
+package game;
 
 import java.net.InetAddress;
 import java.net.Socket;
