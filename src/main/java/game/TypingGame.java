@@ -71,31 +71,37 @@ public class TypingGame extends Application {
         ArrayList<String> words = strings.getWordList();
         // create the word to type
         Text word1 = new Text("");
-        wordPane.getChildren().add(word1);
+        Text word2 = new Text("");
+        Text word3 = new Text("");
+        wordPane.getChildren().addAll(word1,word2,word3);
         resetWord(word1,words);
+        resetWord(word2,words);
+        resetWord(word3,words);
         // thread to run game
         new Thread(() -> {
             try {
                 while(true){
                     int[] status={0};
                     Platform.runLater(() -> {
-                        word1.setY(word1.getY() + 1); // move the word down
+                        // move the words down
+                        incrementWord(word1); 
+                        incrementWord(word2);
+                        incrementWord(word3);
                         // check to see if at bottom of pane
-                        if(400.0 == word1.getY()){
-                            int l = Integer.parseInt(lives.getText().trim());
-                            if(0 >= l){
-                                status[0] = 1;
-                            } else{
-                                l -= 1;
-                                lives.setText(l+"");
-                                resetWord(word1,words);
-                            }
-                        }
+                        checkPosition(word1,lives,words,status);
+                        if(1!=status[0]) checkPosition(word2,lives,words,status);
+                        if(1!=status[0]) checkPosition(word3,lives,words,status);
                    });
-                   Thread.sleep(10);
-                   if(1 == status[0]) break;
+                   Thread.sleep(20);
+                   // break game loop if run out of lives
+                   if(1 == status[0]){
+                       word1.setText("");
+                       word2.setText("");
+                       word3.setText("");
+                       break;
+                   }
                 }
-                Thread.currentThread().interrupt();
+                Thread.currentThread().interrupt(); // exit thread
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
@@ -104,14 +110,19 @@ public class TypingGame extends Application {
         // add Typing functionality
         typing.setOnAction(e -> {
             try {
+                // check if typed word equals one of the words in the game
+                //  if yes increment score and reset the word
                 String typed = typing.getText().trim(); 
                 if(typed.equals(word1.getText().trim())){
-                    int sc = Integer.parseInt(score.getText().trim());
-                    sc += 1;
-                    score.setText(sc+"");
-                    resetWord(word1,words);
+                    incrementScore(word1,score,words);
                 }
-                typing.clear();                
+                else if(typed.equals(word2.getText().trim())){
+                    incrementScore(word2,score,words);
+                }
+                else if(typed.equals(word3.getText().trim())){
+                    incrementScore(word3,score,words);
+                }
+                typing.clear(); // clear the typing field           
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -119,8 +130,36 @@ public class TypingGame extends Application {
     }
 
     private void resetWord(Text word, ArrayList<String> words){
-        word.setText(words.get(rand.nextInt(words.size()-1)));
-        word.setY(0);
-        word.setX(rand.nextInt(350));
+        // method to reset the word
+        word.setText(words.get(rand.nextInt(words.size()-1))); // randomly set word
+        word.setY(0); // set y to top of pane
+        word.setX(rand.nextInt(350)); // randomly set the x position
+    }
+
+    private void incrementWord(Text word){
+        word.setY(word.getY()+1); // move the word down in the pane
+    }
+
+    private void checkPosition(Text word, Label lives,ArrayList<String> words, 
+            int[] status){
+        // method to check if word has reached bottom of the pane
+        if(400.0 == word.getY()){
+            int l = Integer.parseInt(lives.getText().trim());
+            if(0 >= l){
+                status[0] = 1; // if no lives remaining increment status flag
+            } else{ // if lives remaining decrement the lives
+                l -= 1; 
+                lives.setText(l+"");
+                resetWord(word,words); // reset to new word
+            }
+        }
+    }
+
+    private void incrementScore(Text word, Label score, ArrayList<String> words){
+        // method to increment the score
+        int sc = Integer.parseInt(score.getText().trim());
+        sc += 1;
+        score.setText(sc+"");
+        resetWord(word,words);
     }
 }
