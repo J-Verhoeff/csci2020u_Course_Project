@@ -39,7 +39,7 @@ public class TypingGame extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException{
         BorderPane pane = new BorderPane(); // main pane for game
         Button startButton = new Button("Start!");
 
@@ -55,9 +55,13 @@ public class TypingGame extends Application {
         scorePane.add(new Label("Type the words before they reach the bottom of the screen!"),0,1);
         scorePane.add(startButton,0,2);
         pane.setTop(scorePane);
+        
+        TextField user = new TextField();
+        scorePane.add(new Label("Username:"), 0, 3);
+        scorePane.add(user, 1, 3);
 
         startButton.setOnAction(e-> {
-
+            String username = user.getText();
             scorePane.getChildren().clear();
             // getGame();
             TextField typing = new TextField(); // text field for text entry
@@ -201,6 +205,20 @@ public class TypingGame extends Application {
         sc += 1;
         score.setText(sc+"");
         resetWord(word,words);
+    }
+    
+    private ArrayList<String> GenerateStrings() {
+        ArrayList<String> words = new ArrayList<String>();
+        //this will open the text file in the directory
+        File file = new File("GenerateStrings.txt");
+
+        //we will use this to scan the file 
+        Scanner input = new Scanner(file);
+
+        while (input.hasNext()){
+            words.add(input.next());
+        }
+        return words;
     }
 
 }
