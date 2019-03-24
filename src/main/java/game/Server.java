@@ -1,3 +1,5 @@
+package game;
+
 import java.io.*;
 import java.net.*;
 import java.util.Date;
@@ -8,7 +10,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
-public class Server extends Application {
+public class Main extends Application {
 
     //Variables
     private TextArea textArea = new TextArea();
@@ -44,9 +46,8 @@ public class Server extends Application {
 
                         //instance of InetAddress for the client on the socket
                         InetAddress inetAddress = socket.getInetAddress();
-                        //get client's host name
+                        //get client's host name and Ip address
                         textArea.appendText(" - Client " + clientNumber + "'s Host name is " + inetAddress.getHostName() + '\n');
-                        //get client's IP address
                         textArea.appendText(" - Client " + clientNumber + "'s IP address is " + inetAddress.getHostAddress() + '\n' + '\n');
                     });
 
@@ -73,17 +74,16 @@ public class Server extends Application {
                 DataOutputStream outputToClient = new DataOutputStream(socket.getOutputStream());
 
                 while (true) {
-                    // 6. Receive radius from the client
-                    double radius = inputFromClient.readDouble();
 
-                    double area = radius * radius * Math.PI;
+                    // Receive finalscore from the client
+                    int finalScore = inputFromClient.readInt();
 
-                    // 7. Send area back to the client
-                    outputToClient.writeDouble(area);
+                    //Send  back to the client
+                    String message = "Thanks for playing!";
+                    outputToClient.writeUTF(message);
 
                     Platform.runLater(() -> {
-                        textArea.appendText("radius received from client: " + radius + '\n');
-                        textArea.appendText("Area found: " + area + '\n');
+                        textArea.appendText("Final Score was " + finalScore + '\n' + '\n');
                     });
                 }
             }
