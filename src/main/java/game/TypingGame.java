@@ -28,8 +28,7 @@ public class TypingGame extends Application {
 
     Random rand = new Random();
     public int finalScore = 0;
-    BorderPane pane = new BorderPane(); // main pane for game'
-    GridPane scorePane = new GridPane();
+  
     // IO streams
     DataOutputStream toServer = null;
     DataInputStream fromServer = null;
@@ -41,11 +40,12 @@ public class TypingGame extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException{
-//        BorderPane pane = new BorderPane(); // main pane for game
+      
+        BorderPane pane = new BorderPane(); // main pane for game
         Button startButton = new Button("Start!");
 
         // pane to display score
-//        GridPane scorePane = new GridPane();
+        GridPane scorePane = new GridPane();
         scorePane.setPadding(new Insets(11.5,12.5,13.5,14.5));
         scorePane.setAlignment(Pos.CENTER);
         scorePane.setVgap(5.5);
@@ -56,12 +56,18 @@ public class TypingGame extends Application {
         scorePane.add(new Label("Type the words before they reach the bottom of the screen!"),0,1);
         scorePane.add(startButton,0,2);
         pane.setTop(scorePane);
+        
+        TextField user = new TextField();
+        scorePane.add(new Label("Username:"), 0, 3);
+        scorePane.add(user, 1, 3);
 
         //click start to begin game
         startButton.setOnAction(e-> {
+            String username = user.getText();
+            scorePane.getChildren().clear();
+            // getGame();
 
             scorePane.getChildren().clear();//clears screen
-
             TextField typing = new TextField(); // text field for text entry
             typing.setPromptText("Type Words Here");
             pane.setBottom(typing); // put in the main pane
@@ -107,8 +113,7 @@ public class TypingGame extends Application {
                          Label score){
         // main game functionality
         // create list of words to use in game
-        GenerateStrings strings = new GenerateStrings();
-        ArrayList<String> words = strings.getWordList();
+        ArrayList<String> words = GenerateStrings();
 
         // create the word to type
         Text word1 = new Text("");
@@ -224,6 +229,25 @@ public class TypingGame extends Application {
         finalScore += 1;
         score.setText(sc+"");
         resetWord(word,words);
+    }
+    
+    private ArrayList<String> GenerateStrings() {
+        try {
+            ArrayList<String> words = new ArrayList<String>();
+            //this will open the text file in the directory
+            File file = new File("GenerateStrings.txt");
+
+            //we will use this to scan the file 
+            Scanner input = new Scanner(file);
+
+            while (input.hasNext()){
+                words.add(input.next());
+            }
+            return words;
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 
 }
