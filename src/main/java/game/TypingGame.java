@@ -209,17 +209,22 @@ public class TypingGame extends Application {
     }
     
     private ArrayList<String> GenerateStrings() {
-        ArrayList<String> words = new ArrayList<String>();
-        //this will open the text file in the directory
-        File file = new File("GenerateStrings.txt");
+        try {
+            ArrayList<String> words = new ArrayList<String>();
+            //this will open the text file in the directory
+            File file = new File("GenerateStrings.txt");
 
-        //we will use this to scan the file 
-        Scanner input = new Scanner(file);
+            //we will use this to scan the file 
+            Scanner input = new Scanner(file);
 
-        while (input.hasNext()){
-            words.add(input.next());
+            while (input.hasNext()){
+                words.add(input.next());
+            }
+            return words;
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+            return null;
         }
-        return words;
     }
 
 }
