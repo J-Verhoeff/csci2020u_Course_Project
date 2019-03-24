@@ -110,8 +110,7 @@ public class TypingGame extends Application {
                          Label score){
         // main game functionality
         // create list of words to use in game
-        GenerateStrings strings = new GenerateStrings();
-        ArrayList<String> words = strings.getWordList();
+        ArrayList<String> words = GenerateStrings();
         // create the word to type
         Text word1 = new Text("");
         Text word2 = new Text("");
