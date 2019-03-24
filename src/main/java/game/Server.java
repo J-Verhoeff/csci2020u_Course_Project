@@ -10,14 +10,14 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
-public class Server extends Application {
+public class Server {
 
     //Variables
     private TextArea textArea = new TextArea();
     private int clientNumber = 0;
 
-    @Override
-    public void start(Stage primaryStage) {
+    // constructor
+    public Server(Stage primaryStage) {
 
         //Set scene
         Scene scene = new Scene(new ScrollPane(textArea), 450, 200);
@@ -93,7 +93,7 @@ public class Server extends Application {
         }
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+    // public static void main(String[] args) {
+    //     launch(args);
+    // }
 }

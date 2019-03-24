@@ -43,6 +43,10 @@ public class TypingGame extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException{
+
+        // open server stage
+        Stage serverStage = new Stage();
+        Server server = new Server(serverStage);
       
         BorderPane pane = new BorderPane(); // main pane for game
         GridPane scorePane = new GridPane();
@@ -129,6 +133,10 @@ public class TypingGame extends Application {
         // main game functionality
         // create list of words to use in game
         ArrayList<String> words = GenerateStrings();
+        if(words == null){
+            System.err.println("Could not open File");
+            return;
+        }
 
         // create the word to type
         Text word1 = new Text("");
