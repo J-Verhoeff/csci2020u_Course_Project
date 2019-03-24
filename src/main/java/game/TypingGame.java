@@ -133,7 +133,7 @@ public class TypingGame extends Application {
         // main game functionality
         // create list of words to use in game
         ArrayList<String> words = GenerateStrings();
-        if(words == null){
+        if(words == null){ // check if file exists
             System.err.println("Could not open File");
             return;
         }
