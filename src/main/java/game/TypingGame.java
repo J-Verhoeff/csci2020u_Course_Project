@@ -59,7 +59,7 @@ public class TypingGame extends Application {
         startButton.setOnAction(e-> {
 
             scorePane.getChildren().clear();
-//            getGame();
+            // getGame();
             TextField typing = new TextField(); // text field for text entry
             typing.setPromptText("Type Words Here");
             pane.setBottom(typing); // put in the main pane
@@ -77,84 +77,33 @@ public class TypingGame extends Application {
             Pane wordPane = new Pane(); // pane for words to appear
             pane.setCenter(wordPane);
 
-            // main game functionality
-            // create list of words to use in game
-            GenerateStrings strings = new GenerateStrings();
-            ArrayList<String> words = strings.getWordList();
-            // create the word to type
-            Text word1 = new Text("");
-            wordPane.getChildren().add(word1);
-            resetWord(word1, words);
-
-
-            // thread to run game
-            new Thread(() -> {
-                try {
-                    while (true) {
-                        int[] status = {0};
-                        Platform.runLater(() -> {
-                            word1.setY(word1.getY() + 1); // move the word down
-                            // check to see if at bottom of pane
-                            if (400.0 == word1.getY()) {
-                                int l = Integer.parseInt(lives.getText().trim());
-                                if (0 >= l) {
-                                    status[0] = 1;
-                                } else {
-                                    l -= 1;
-                                    lives.setText(l + "");
-                                    resetWord(word1, words);
-                                }
-                            }
-                        });
-                        Thread.sleep(20);
-                        if (1 == status[0]) break;
-                    }
-                    Thread.currentThread().interrupt();
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                }
-            }).start();
-
-            // add Typing functionality
-            typing.setOnAction((f) -> {
-                try {
-                    String typed = typing.getText().trim();
-                    if (typed.equals(word1.getText().trim())) {
-                        int sc = Integer.parseInt(score.getText().trim());
-                        sc += 1;
-                        score.setText(sc + "");
-                        resetWord(word1, words);
-                    }
-                    typing.clear();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            });
+            runGame(typing, wordPane, lives, score);
         });
 
+        Scene scene = new Scene(pane, 400,400);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Typing Game");
+        primaryStage.show();
 
-        try {
-            // getting localhost ip
-            InetAddress ip = InetAddress.getByName("localhost");
-            // establish the connection with server port
-            Socket getServer = new Socket(ip, 8000);
 
-            //Create an input stream to receive data from the server
-            fromServer = new DataInputStream(getServer.getInputStream());
-            // Create an output stream to send data to the server
-            toServer = new DataOutputStream(getServer.getOutputStream());
+    //     try {
+    //         // getting localhost ip
+    //         InetAddress ip = InetAddress.getByName("localhost");
+    //         // establish the connection with server port
+    //         Socket getServer = new Socket(ip, 8000);
 
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+    //         //Create an input stream to receive data from the server
+    //         fromServer = new DataInputStream(getServer.getInputStream());
+    //         // Create an output stream to send data to the server
+    //         toServer = new DataOutputStream(getServer.getOutputStream());
 
-        //set scene
-        Scene scene = new Scene(pane, 400, 400); // set scene
-        primaryStage.setScene(scene); // put scene into stage
-        primaryStage.setTitle("Typing Tutor"); // set title of the stage
-        primaryStage.show(); // display the stage
+    //     } catch (IOException ex) {
+    //         ex.printStackTrace();
+    //     }
+    }
 
-<<<<<<< HEAD
+    private void runGame(TextField typing, Pane wordPane, Label lives,
+             Label score){
         // main game functionality        
         // create list of words to use in game
         GenerateStrings strings = new GenerateStrings();
@@ -217,8 +166,6 @@ public class TypingGame extends Application {
                 ex.printStackTrace();
             }
         });
-=======
->>>>>>> 073acb8cc98b403ddd99dbdc47d37fba85af9d9f
     }
 
 
