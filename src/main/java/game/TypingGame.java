@@ -7,7 +7,10 @@ import java.io.*;
 import java.lang.InterruptedException;
 
 import javafx.application.Application;
+import javafx.geometry.HPos;
 import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -42,32 +45,44 @@ public class TypingGame extends Application {
     public void start(Stage primaryStage) throws IOException{
       
         BorderPane pane = new BorderPane(); // main pane for game
+        GridPane scorePane = new GridPane();
+        
         Button startButton = new Button("Start!");
 
         // pane to display score
-        GridPane scorePane = new GridPane();
-        scorePane.setPadding(new Insets(11.5,12.5,13.5,14.5));
+        scorePane.setPadding(new Insets(50,12.5,13.5,14.5));
         scorePane.setAlignment(Pos.CENTER);
-        scorePane.setVgap(5.5);
+        scorePane.setVgap(15.5);
         scorePane.setHgap(5.5);
 
         // labels to diplay the score
-        scorePane.add(new Label("Welcome to Typing Tutor!"),0,0);
-        scorePane.add(new Label("Type the words before they reach the bottom of the screen!"),0,1);
+        Label welcome = new Label("Welcome to Typing Tutor!");
+        welcome.setFont(new Font("Arial",30));
+        welcome.setTextFill(Color.DARKSLATEBLUE);
+        scorePane.setHalignment(welcome, HPos.CENTER);
+        scorePane.add(welcome,0,0);
+
+        Label description = new Label("Type the words before they reach the bottom of the screen!");
+        scorePane.setHalignment(description, HPos.CENTER);
+        scorePane.add(description ,0,1);
+
         scorePane.add(startButton,0,2);
+        scorePane.setHalignment(startButton, HPos.CENTER);
         pane.setTop(scorePane);
         
-        TextField user = new TextField();
-        scorePane.add(new Label("Username:"), 0, 3);
-        scorePane.add(user, 1, 3);
+        //TextField user = new TextField();
+        //scorePane.add(new Label("Username:"), 0, 3);
+        //scorePane.add(user, 1, 3);
 
         //click start to begin game
         startButton.setOnAction(e-> {
-            String username = user.getText();
-            scorePane.getChildren().clear();
-            // getGame();
-
+            
+            //String username = user.getText();
+            
             scorePane.getChildren().clear();//clears screen
+            scorePane.setPadding(new Insets(10,12.5,13.5,14.5));
+            scorePane.setAlignment(Pos.CENTER);
+            
             TextField typing = new TextField(); // text field for text entry
             typing.setPromptText("Type Words Here");
             pane.setBottom(typing); // put in the main pane
