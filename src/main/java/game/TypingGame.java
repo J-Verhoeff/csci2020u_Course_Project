@@ -169,7 +169,7 @@ public class TypingGame extends Application {
                         word1.setText("");
                         word2.setText("");
                         word3.setText("");
-                        GameOver();
+                        GameOver(wordPane);
                         break;
                     }
                 }
@@ -275,10 +275,9 @@ public class TypingGame extends Application {
     }
        
     private String text = "";
-    private void GameOver(){
-        StackPane pane = new StackPane();
+    private void GameOver(Pane wordPane){
         Label lblText = new Label("Typing Game");
-        pane.getChildren().add(lblText);
+        wordPane.getChildren().add(lblText);
     
         new Thread(new Runnable() {
             @Override
