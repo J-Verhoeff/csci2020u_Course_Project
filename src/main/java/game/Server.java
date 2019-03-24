@@ -18,23 +18,20 @@ public class Server {
 
     // constructor
     public Server(Stage primaryStage) {
-
         //Set scene
         Scene scene = new Scene(new ScrollPane(textArea), 450, 200);
-        primaryStage.setTitle("Server");
+        primaryStage.setTitle("Server for Typing Game"); //set title
         primaryStage.setScene(scene);
-        primaryStage.show();
+        primaryStage.show(); //displays server
 
         //Creating server
         new Thread( () -> {
             try {
-
-                ServerSocket serverSocket = new ServerSocket(8000); //create serversocket
-
+                // Create a server socket
+                ServerSocket serverSocket = new ServerSocket(8000); 
                 textArea.appendText("Server started at " + new Date() + '\n');
 
                 while (true) {
-
                     //Listen for a new connection request
                     Socket socket = serverSocket.accept();
                     clientNumber++; //increase client no
@@ -69,7 +66,6 @@ public class Server {
 
         public void run() {
             try {
-
                 DataInputStream inputFromClient = new DataInputStream(socket.getInputStream());
                 DataOutputStream outputToClient = new DataOutputStream(socket.getOutputStream());
 
@@ -92,8 +88,4 @@ public class Server {
             }
         }
     }
-
-    // public static void main(String[] args) {
-    //     launch(args);
-    // }
 }
