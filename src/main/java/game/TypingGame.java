@@ -5,7 +5,6 @@ import java.net.Socket;
 import java.util.*;
 import java.io.*;
 import java.lang.InterruptedException;
-
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.scene.control.Button;
@@ -50,7 +49,7 @@ public class TypingGame extends Application {
       
         BorderPane pane = new BorderPane(); // main pane for game
         GridPane scorePane = new GridPane();
-        
+        //add new button to start game
         Button startButton = new Button("Start!");
 
         // pane to display score
@@ -65,11 +64,11 @@ public class TypingGame extends Application {
         welcome.setTextFill(Color.DARKSLATEBLUE);
         scorePane.setHalignment(welcome, HPos.CENTER);
         scorePane.add(welcome,0,0);
-
+        //instructions
         Label description = new Label("Type the words before they reach the bottom of the screen!");
         scorePane.setHalignment(description, HPos.CENTER);
         scorePane.add(description ,0,1);
-
+        //display of start button
         scorePane.add(startButton,0,2);
         scorePane.setHalignment(startButton, HPos.CENTER);
         pane.setTop(scorePane);
@@ -78,7 +77,7 @@ public class TypingGame extends Application {
         //scorePane.add(new Label("Username:"), 0, 3);
         //scorePane.add(user, 1, 3);
 
-        //click start to begin game
+        //action on button start to begin game
         startButton.setOnAction(e-> {
             
             //String username = user.getText();
@@ -102,7 +101,7 @@ public class TypingGame extends Application {
 
             Pane wordPane = new Pane(); // pane for words to appear
             pane.setCenter(wordPane);
-
+            //game runs and words fall down the screen
             runGame(typing, wordPane, lives, score);
 
         });
@@ -120,10 +119,11 @@ public class TypingGame extends Application {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-
+        
         Scene scene = new Scene(pane, 400,400);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Typing Game");
+        //displays game
         primaryStage.show();
 
     }
@@ -180,7 +180,6 @@ public class TypingGame extends Application {
 
                     //get data from server
                     String message = fromServer.readUTF();
-
                     System.out.println(message);
 
                 }
@@ -191,7 +190,6 @@ public class TypingGame extends Application {
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
-
         }).start();
 
         // add Typing functionality
@@ -200,6 +198,7 @@ public class TypingGame extends Application {
                 // check if typed word equals one of the words in the game
                 //  if yes increment score and reset the word
                 String typed = typing.getText().trim();
+                //if typed correctly, call incrementScore to tally score
                 if(typed.equals(word1.getText().trim())){
                     incrementScore(word1,score,words);
                 }
@@ -241,7 +240,6 @@ public class TypingGame extends Application {
                 lives.setText(l+"");
                 resetWord(word,words); // reset to new word
             }
-
         }
     }
 
@@ -254,16 +252,18 @@ public class TypingGame extends Application {
         resetWord(word,words);
     }
     
+    //opens File GenerateStrings.txt to generate list of words into ArrayList 
     private ArrayList<String> GenerateStrings() {
         try {
             ArrayList<String> words = new ArrayList<String>();
             //this will open the text file in the directory
             File file = new File("GenerateStrings.txt");
 
-            //we will use this to scan the file 
+            //we will use Scanner to scan the file 
             Scanner input = new Scanner(file);
-
+            //while the file has not ended
             while (input.hasNext()){
+                //add each word into list
                 words.add(input.next());
             }
             return words;
