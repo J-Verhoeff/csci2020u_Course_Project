@@ -1,3 +1,5 @@
+
+
 package game;
 
 import java.awt.*;
@@ -59,7 +61,7 @@ public class TypingGame extends Application {
         startButton.setOnAction(e-> {
 
             scorePane.getChildren().clear();
-            // getGame();
+
             TextField typing = new TextField(); // text field for text entry
             typing.setPromptText("Type Words Here");
             pane.setBottom(typing); // put in the main pane
@@ -80,26 +82,25 @@ public class TypingGame extends Application {
             runGame(typing, wordPane, lives, score);
         });
 
+
+        try {
+            // getting localhost ip
+            InetAddress ip = InetAddress.getByName("localhost");
+            // establish the connection with server port
+            Socket getServer = new Socket(ip, 8000);
+            //Create an input stream to receive data from the server
+            fromServer = new DataInputStream(getServer.getInputStream());
+            // Create an output stream to send data to the server
+            toServer = new DataOutputStream(getServer.getOutputStream());
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+      
         Scene scene = new Scene(pane, 400,400);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Typing Game");
         primaryStage.show();
-
-
-    //     try {
-    //         // getting localhost ip
-    //         InetAddress ip = InetAddress.getByName("localhost");
-    //         // establish the connection with server port
-    //         Socket getServer = new Socket(ip, 8000);
-
-    //         //Create an input stream to receive data from the server
-    //         fromServer = new DataInputStream(getServer.getInputStream());
-    //         // Create an output stream to send data to the server
-    //         toServer = new DataOutputStream(getServer.getOutputStream());
-
-    //     } catch (IOException ex) {
-    //         ex.printStackTrace();
-    //     }
     }
 
     private void runGame(TextField typing, Pane wordPane, Label lives,
@@ -168,7 +169,6 @@ public class TypingGame extends Application {
         });
     }
 
-
     private void resetWord(Text word, ArrayList<String> words){
         // method to reset the word
         word.setText(words.get(rand.nextInt(words.size()-1))); // randomly set word
@@ -188,7 +188,8 @@ public class TypingGame extends Application {
             if(0 >= l){
                 status[0] = 1; // if no lives remaining increment status flag
             } else{ // if lives remaining decrement the lives
-                l -= 1; 
+                l -= 1;
+
                 lives.setText(l+"");
                 resetWord(word,words); // reset to new word
             }
