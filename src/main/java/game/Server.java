@@ -83,7 +83,7 @@ public class Main extends Application {
                     outputToClient.writeUTF(message);
 
                     Platform.runLater(() -> {
-                        textArea.appendText("Final Score was " + finalScore + '\n' + '\n');
+                        textArea.appendText('\n' + "Final Score was " + finalScore + " points for Client " +  clientNumber + '\n');
                     });
                 }
             }
