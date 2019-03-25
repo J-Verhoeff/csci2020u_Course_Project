@@ -72,15 +72,9 @@ public class TypingGame extends Application {
         scorePane.add(startButton,0,2);
         scorePane.setHalignment(startButton, HPos.CENTER);
         pane.setTop(scorePane);
-        
-        //TextField user = new TextField();
-        //scorePane.add(new Label("Username:"), 0, 3);
-        //scorePane.add(user, 1, 3);
 
         //action on button start to begin game
         startButton.setOnAction(e-> {
-            
-            //String username = user.getText();
             
             scorePane.getChildren().clear();//clears screen
             scorePane.setPadding(new Insets(10,12.5,13.5,14.5));
@@ -103,10 +97,6 @@ public class TypingGame extends Application {
             pane.setCenter(wordPane);
             //game runs and words fall down the screen
             runGame(typing, wordPane, lives, score);
-            
-            BorderPane overPane = new BorderPane(); //ending page for game
-            pane.setCenter(overPane);
-            GameOver(overPane);
 
         });
 
@@ -277,12 +267,5 @@ public class TypingGame extends Application {
         }
     }
     
-    private void GameOver(BorderPane overPane){
-        //displays game over text
-        Label gameover = new Label("GAME OVER");
-        gameover.setFont(new Font("Times New Roman", 30));
-        gameover.setTextFill(Color.MAGENTA);
-        overPane.getChildren().add(gameover);
-    }
 
 }
