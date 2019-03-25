@@ -9,6 +9,7 @@ Group Members:
               - game logic
         2. Tilova Shahrin
               - file I/O fucntionality
+              - game over screen
         3. Vasha Thangarajah (vashadsk4495)
               - server and client side programming
                     - Server.js
