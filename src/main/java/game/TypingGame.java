@@ -278,7 +278,7 @@ public class TypingGame extends Application {
     private void GameOver(Pane wordPane){
         Label lblText = new Label("Typing Game");
         wordPane.getChildren().add(lblText);
-    
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -289,19 +289,20 @@ public class TypingGame extends Application {
                         else
                             text = "";
   
-            Platform.runLater(new Runnable() {
-              @Override 
-              public void run() {
-                lblText.setText(text);
-              }
-            });           
-            Thread.sleep(200);
-          }
-        }
-        catch (InterruptedException ex) {
-        }
-      }
-    }).start();
+                        Platform.runLater(new Runnable() {
+                            @Override 
+                            public void run() {
+                                lblText.setText(text);
+                            }
+                        });           
+                        Thread.sleep(200);
+                    }
+                }
+                catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }).start();
   
     }
 
