@@ -103,6 +103,10 @@ public class TypingGame extends Application {
             pane.setCenter(wordPane);
             //game runs and words fall down the screen
             runGame(typing, wordPane, lives, score);
+            
+            BorderPane overPane = new BorderPane(); //ending page for game
+            pane.setCenter(overPane);
+            GameOver(overPane);
 
         });
 
@@ -169,7 +173,6 @@ public class TypingGame extends Application {
                         word1.setText("");
                         word2.setText("");
                         word3.setText("");
-                        GameOver(wordPane);
                         break;
                     }
                 }
@@ -273,36 +276,13 @@ public class TypingGame extends Application {
             return null;
         }
     }
-       
-    private String text = "";
-    private void GameOver(Pane wordPane){
-        Label lblText = new Label("Typing Game");
-        wordPane.getChildren().add(lblText);
     
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    while (true) {
-                        if (lblText.getText().trim().length() == 0)
-                            text = "GAME OVER"; //text will flash
-                        else
-                            text = "";
-  
-            Platform.runLater(new Runnable() {
-              @Override 
-              public void run() {
-                lblText.setText(text);
-              }
-            });           
-            Thread.sleep(200);
-          }
-        }
-        catch (InterruptedException ex) {
-        }
-      }
-    }).start();
-  
+    private void GameOver(BorderPane overPane){
+        //displays game over text
+        Label gameover = new Label("GAME OVER");
+        gameover.setFont(new Font("Times New Roman", 30));
+        gameover.setTextFill(Color.MAGENTA);
+        overPane.getChildren().add(gameover);
     }
 
 }
