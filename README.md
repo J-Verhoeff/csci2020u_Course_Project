@@ -6,6 +6,11 @@ Project Link: https://github.com/J-Verhoeff/csci2020u_Course_Project
 
 This project is a simple application for a typing game that tests your typing speed and helps you learn how to type faster.
 
+To run program use:
+
+- gradle build
+- gradle run
+
 Group Members:
 
 1. Joshua Verhoeff (J-Verhoeff)
