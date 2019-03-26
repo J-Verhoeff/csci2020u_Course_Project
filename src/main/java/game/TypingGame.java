@@ -213,9 +213,11 @@ public class TypingGame extends Application {
 
     private void resetWord(Text word, ArrayList<String> words){
         // method to reset the word
-        word.setText(words.get(rand.nextInt(words.size()-1))); // randomly set word
+        // randomly set word
+        word.setText(words.get(rand.nextInt(words.size()-1))); 
         word.setY(0); // set y to top of pane
-        word.setX(rand.nextInt(350)); // randomly set the x position
+        // randomly set the x position
+        word.setX(rand.nextInt(350)); 
     }
 
     private void incrementWord(Text word){
