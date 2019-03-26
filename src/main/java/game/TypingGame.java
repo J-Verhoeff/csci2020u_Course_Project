@@ -268,6 +268,4 @@ public class TypingGame extends Application {
             return null;
         }
     }
-    
-
 }

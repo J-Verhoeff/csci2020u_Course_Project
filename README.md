@@ -17,6 +17,6 @@ Group Members:
       * game over screen
 3. Vasha Thangarajah (vashadsk4495)
       * server and client side programming
-            * (Server.js + client side in TypingGame.js)
+          * (Server.js + client side in TypingGame.js)
       * start screen UI
       * multithreading functionality
