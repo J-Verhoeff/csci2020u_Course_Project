@@ -14,7 +14,8 @@ Group Members:
       * gradle build
 2. Tilova Shahrin (tilovashahrin)
       * file I/O functionality
-      * game over screen
+      * Game Over UI screen
+      * Threading functionality
 3. Vasha Thangarajah (vashadsk4495)
       * server and client side programming
             * (Server.js + client side in TypingGame.js)
