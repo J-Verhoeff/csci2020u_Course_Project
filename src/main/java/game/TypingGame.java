@@ -21,6 +21,7 @@ import javafx.scene.layout.GridPane;
 import javafx.geometry.Insets;
 import javafx.application.Platform;
 import javafx.scene.text.Text;
+import javafx.scene.layout.StackPane;
 
 // main class for typing game
 /**
