@@ -21,6 +21,7 @@ import javafx.scene.layout.GridPane;
 import javafx.geometry.Insets;
 import javafx.application.Platform;
 import javafx.scene.text.Text;
+import javafx.scene.layout.StackPane;
 
 // main class for typing game
 /**
@@ -231,6 +232,7 @@ public class TypingGame extends Application {
             int l = Integer.parseInt(lives.getText().trim());
             if(0 >= l){
                 status[0] = 1; // if no lives remaining increment status flag
+                GameOver();
             } else{ // if lives remaining decrement the lives
                 l -= 1;
                 lives.setText(l+"");
@@ -268,4 +270,44 @@ public class TypingGame extends Application {
             return null;
         }
     }
+    
+    private String text = "";
+    private void GameOver(){
+        Stage endstage = new Stage();
+        StackPane pane = new StackPane();
+        Label label = new Label("TYPING TUTOR");
+        pane.getChildren().add(label);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    while (true) {
+                        if (label.getText().trim().length() == 0)
+                            text = "GAME OVER";
+                        else
+                            text = "";
+  
+                        Platform.runLater(new Runnable() {
+                            @Override 
+                            public void run() {
+                                label.setText(text);
+                            }
+                        });           
+                        Thread.sleep(200);
+                    }
+                }
+                catch (InterruptedException ex) {
+                }
+            }
+        }).start();
+        
+        // Create a scene and place it in the stage
+        Scene scene = new Scene(pane, 200, 50);
+        endstage.setScene(scene); // Place the scene in the stage
+        endstage.show(); // Display the stage 
+    }
+    
+    
+
 }
